@@ -1,4 +1,3 @@
-
 1. Напишите (в очередной раз ☹) класс Square(x, y, w) со следующими свойствами:
 
 x и y — это координаты левой нижней вершины квадрата, а w — его ширина
@@ -16,18 +15,18 @@ x и y — это координаты левой нижней вершины к
 
 Input:
 
-   1 for x, y, w in (1, 2, 0), (1, 1, 7), (3, 4, 10), (5, 3, 6):
-   2     Sq = Square(x, y, w)
-   3     Sq.center += -1, -1
-   4     match Sq:
-   5         case Square(_, _, 0):
-   6             print("Zero square")
-   7         case Square(0, 0, _):
-   8             print("Started from 0")
-   9         case Square(s=100):
-  10             print("10x10 square")
-  11         case Square(center=c) if c[0] == round(c[0]) and c[1] == round(c[1]):
-  12             print("Even-sized square")
+for x, y, w in (1, 2, 0), (1, 1, 7), (3, 4, 10), (5, 3, 6):
+    Sq = Square(x, y, w)
+    Sq.center += -1, -1
+    match Sq:
+        case Square(_, _, 0):
+            print("Zero square")
+        case Square(0, 0, _):
+            print("Started from 0")
+        case Square(s=100):
+            print("10x10 square")
+        case Square(center=c) if c[0] == round(c[0]) and c[1] == round(c[1]):
+            print("Even-sized square")
 Output:
 
 Zero square
@@ -36,35 +35,17 @@ Started from 0
 Even-sized square
 
 
-2. Написать декоратор класса под названием sizer, который будет добавлять в класс поле size. При обращении к этому полю возвращается len() объекта, если объект имеет длину, иначе же abs() объекта, если от него вычисляется модуль, и 0 в противном случае. Если в объекте присвоить этому полю некоторое значение, будет возвращаться это значение до тех пор, пока поле не удалят.
+
+2. Написать класс-параметрический декоратор Fix(n), с помощью которого все вещественные (как позиционные, так и именные) параметры произвольной декорируемой функции, а также её возвращаемое значение, округляются до n-го знака после запятой (1 ⩽ n ⩽ 16). Если какие-то параметры функции оказались не вещественными, или не вещественно возвращаемое значение, эти объекты не меняются.
+
+<!> Требуется использовать @wraps
 
 Input:
+@Fix(4)
+def aver(*args, sign=1):
+    return sum(args)*sign
 
-   1 @sizer
-   2 class S(list):
-   3     pass
-   4 
-   5 @sizer
-   6 class N(complex):
-   7     pass
-   8 
-   9 @sizer
-  10 class E(Exception):
-  11     pass
-  12 
-  13 for obj in S("QWER"), N(3+4j), E("Exceptions know no lengths!"):
-  14     print(obj, obj.size)
-  15 p = S(range(10, 15))
-  16 print(p.size)
-  17 p.size = p.pop()
-  18 print(p.size)
-  19 del p.size
-  20 print(p.size)
+print(aver(2.45675901, 3.22656321, 3.432654345, 4.075463224, sign=-1))
+
 Output:
-
-['Q', 'W', 'E', 'R'] 4
-(3+4j) 5.0
-Exceptions know no lengths! 0
-5
-14
-4
+-13.1916
