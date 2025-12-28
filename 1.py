@@ -1,3 +1,15 @@
+class _Center(tuple):
+    def __new__(cls, x, y):
+        return super().__new__(cls, (x, y))
+    
+    def __add__(self, other):
+        if len(other) == 2:
+            return _Center(self[0] + other[0], self[1] + other[1])
+        return NotImplemented
+
+    __radd__ = __add__
+
+
 class Square:
     __match_args__ = ("x", "y", "w")
 
@@ -25,7 +37,7 @@ class Square:
     @property
     def center(self):
         half = self.w / 2
-        return (self.x + half, self.y + half)
+        return _Center(self.x + half, self.y + half)
 
     @center.setter
     def center(self, value):
