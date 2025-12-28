@@ -1,5 +1,5 @@
 class Square:
-    __match_args__ = ('x', 'y', 'w')  # Определяем порядок для позиционных параметров в match
+    __match_args__ = ('x', 'y', 'w')
     
     def __init__(self, x, y, w):
         self._x = x
@@ -30,7 +30,7 @@ class Square:
     def w(self, value):
         old_center = self.center
         self._w = value
-        self.center = old_center  # Центр сохраняется
+        self.center = old_center
     
     @property
     def h(self):
@@ -40,7 +40,7 @@ class Square:
     def h(self, value):
         old_center = self.center
         self._w = value
-        self.center = old_center  # Центр сохраняется
+        self.center = old_center
     
     @property
     def s(self):
@@ -48,7 +48,6 @@ class Square:
     
     @s.setter
     def s(self, value):
-        # Изменение площади игнорируется
         pass
     
     @property
@@ -65,23 +64,17 @@ class Square:
             raise ValueError("Center must be a tuple/list of two numbers")
     
     def __iadd__(self, other):
-        # Для поддержки Sq.center += (dx, dy)
-        # Но эта магическая функция применяется к объекту Square, а не к свойству center
-        # Поэтому лучше переопределим ее как сдвиг всего квадрата
         if isinstance(other, tuple) and len(other) == 2:
             dx, dy = other
             self._x += dx
             self._y += dy
         return self
     
-    # Добавим специальный метод для поддержки center +=
     def _move_center(self, dx, dy):
         """Вспомогательный метод для смещения центра"""
         cx, cy = self.center
         self.center = (cx + dx, cy + dy)
 
-
-# Тестовый код
 if __name__ == "__main__":
     for x, y, w in (1, 2, 0), (1, 1, 7), (3, 4, 10), (5, 3, 6):
         Sq = Square(x, y, w)
