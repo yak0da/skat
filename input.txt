@@ -19,6 +19,9 @@ for A in (C(1, "2", 3), C(3, 3, 4), C(2, "Q", 3)):
         case _:
             print("Other")
 
+
+вывод:
+
 One
 Other
 Three
